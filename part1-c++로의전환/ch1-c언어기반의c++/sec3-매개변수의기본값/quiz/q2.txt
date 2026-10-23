@@ -1,0 +1,33 @@
+다음과 같은 형태의 함수 오버로딩은 문제가 있다. 어떤 문제인지 설명.
+
+```
+int SimpleFunc(int a = 10)
+{
+	return a + 1;
+}
+
+int SimpleFunc(void)
+{
+	return 10;
+}
+```
+
+A.
+int형 변수 a 하나를 인자로 받는 SimpleFunc의 매개변수에 기본값이 지정되어 있음.
+이 경우 SimpleFunc를 인자 없이 호출하는 경우 int a에 기본값을 사용하는 SimpleFunc(int a = 10)를 호출해야 할 지 SimpleFunc(void)를 호출해야 할 지 구별할 수 없게 됨
+
+```
+❯ c98 q2_test.cpp
+q2_test.cpp: In function ‘int main()’:
+q2_test.cpp:15:19: error: call of overloaded ‘SimpleFunc()’ is ambiguous
+   15 |         SimpleFunc();
+      |         ~~~~~~~~~~^~
+q2_test.cpp:3:5: note: candidate: ‘int SimpleFunc(int)’
+    3 | int SimpleFunc(int a = 10)
+      |     ^~~~~~~~~~
+q2_test.cpp:8:5: note: candidate: ‘int SimpleFunc()’
+    8 | int SimpleFunc(void)
+      |     ^~~~~~~~~~
+```
+
+테스트 결과 위와 같은 오류 발생
